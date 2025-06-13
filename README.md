@@ -17,7 +17,7 @@ A simple and responsive web-based calculator built using **HTML**, **CSS**, and 
 
 ## 💻 Demo
 
-![Calculator Screenshot](screenshot.png)  
+![Calculator Demo](https://684bc7226d462e867053b7b5--fanciful-faloodeh-b6a60b.netlify.app/)  
 You can open `index.html` in your browser to run the calculator.
 
 ---
