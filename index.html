@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator</title>
+  <style>
+    body {
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+    .calculator {
+      background: #222;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .display {
+      background: #000;
+      color: #0f0;
+      font-size: 2rem;
+      text-align: right;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 10px;
+    }
+    button {
+      padding: 20px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #444;
+      color: white;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #666;
+    }
+    .operator {
+      background-color: #ff9500;
+    }
+    .operator:hover {
+      background-color: #e08e00;
+    }
+    .equal {
+      background-color: #34c759;
+    }
+    .equal:hover {
+      background-color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendOperator('/')" class="operator">&divide;</button>
+      <button onclick="appendOperator('*')" class="operator">&times;</button>
+      <button onclick="backspace()">&larr;</button>
+
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="appendOperator('-')" class="operator">&minus;</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="appendOperator('+')" class="operator">+</button>
+
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="calculate()" class="equal">=</button>
+
+      <button onclick="appendNumber('0')" style="grid-column: span 2;">0</button>
+      <button onclick="appendNumber('.')">.</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendNumber(num) {
+      if (display.textContent === '0') {
+        display.textContent = num;
+      } else {
+        display.textContent += num;
+      }
+    }
+
+    function appendOperator(op) {
+      const lastChar = display.textContent.slice(-1);
+      if ('+-*/'.includes(lastChar)) {
+        display.textContent = display.textContent.slice(0, -1) + op;
+      } else {
+        display.textContent += op;
+      }
+    }
+
+    function clearDisplay() {
+      display.textContent = '0';
+    }
+
+    function backspace() {
+      if (display.textContent.length > 1) {
+        display.textContent = display.textContent.slice(0, -1);
+      } else {
+        display.textContent = '0';
+      }
+    }
+
+    function calculate() {
+      try {
+        display.textContent = eval(display.textContent);
+      } catch {
+        display.textContent = 'Error';
+      }
+    }
+
+    // Bonus: Keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (!isNaN(e.key) || ['+', '-', '*', '/','.'].includes(e.key)) {
+        appendNumber(e.key);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        calculate();
+      } else if (e.key === 'Backspace') {
+        backspace();
+      } else if (e.key.toLowerCase() === 'c') {
+        clearDisplay();
+      }
+    });
+  </script>
+</body>
+</html>
